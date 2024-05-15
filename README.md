@@ -1,5 +1,6 @@
 INSTALLATION
 
+Need to install mamba first.
 
 Use mamba to create environment (here called foifs2cmor, but can be anything) and install dependencies. See https://docs.esmvaltool.org/en/latest/quickstart/installation.html#installation-of-subpackages.
 
