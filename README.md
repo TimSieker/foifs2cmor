@@ -16,3 +16,17 @@ python -m pip install 'scitools-iris @ git+https://github.com/TimSieker/iris.git
 
 git clone https://github.com/TimSieker/foifs2cmor.git
 
+
+### run the code
+
+Adjust all the parameters in the configuration files
+
+then run:
+
+python foci_atmos.py config-user_atmos.yml 
+
+# user configuration
+used set up directories and configuration for running the script
+
+# cmor configuration
+defines cmor specific parameters
