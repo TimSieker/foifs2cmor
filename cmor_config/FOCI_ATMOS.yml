@@ -1,0 +1,335 @@
+---
+# Global attributes of NetCDF file
+attributes:
+  product: model-output
+  project_id: CMIP6 #actually just needed for esmvaltool
+  activity_id: CMIP
+  experiment: some text describing the experiment
+  experiment_id: future
+  sub_experiment: "none"
+  sub_experiment_id: "none"
+  institution: Geomar, Helmholtz Centre for Ocean Research, Wischhofstr. 1-3 24148 Kiel, Germany
+  institution_id: GEOMAR
+  grid: native atmosphere reduced octahedral O96 Gaussian grid regridded to regular lonxlat grid using bi-linear interpolation
+  grid_label: gn
+  nominal_resolution: 250 km
+  frequency: mon
+  mip_era: CMIP6
+  realm: atmos
+  source:
+      "FOCI-OpenIFS 3.0 (2023):\n
+      aerosol: none,\n
+      atmos: OpenIFS cy43r3v2 (Tco95, octahedral reduced Gaussian grid equivalent to 400x192; 91 levels; top level 0.01 hPa),\n
+      atmosChem: none,\n
+      land: HTESSEL (land surface scheme build into OpenIFS),\n
+      landIce: none,\n
+      ocean: NEMO 3.6 (ORCA05 tripolar grid 0.5 deg; 722 x 511 longitude/latitude; 46 levels; top grid cell 0-5m),\n
+      ocnBgchem: none,\n
+      seaIce: LIM2"
+  source_id: FOCI-OpenIFS
+  source_type: "AOGCM"
+  version: "v20240320"
+  realization_index: 1
+  initialization_index: 1
+  physics_index: 1
+  forcing_index: 1
+  variant_info: realization 1
+
+  base_time: "1850-01-01" #set the ‘base time’ to the time at the beginning of the simulation, will be omitted eventually
+
+  branch_method: standard #if no parent, will be omitted
+  branch_time_in_child: 0. #if no parent, will be omitted
+  branch_time_in_parent: 0. #if no parent, will be omitted
+  parent_activity_id: CMIP #if no parent, will be omitted
+  parent_experiment_id: piControl #if no parent, will be omitted
+  parent_mip_era: CMIP6 #if no parent, will be omitted
+  parent_source_id: no parent #if no parent, will be omitted
+  parent_time_units: no parent #if no parent, will be omitted
+  parent_variant_label: no parent #if no parent, will be omitted
+
+  reference: some publication
+  further_info_url: some url leading to documentation (same as reference?)
+  license: "CMIP6 model data produced by <Your Centre Name> is licensed under a Creative Commons Attribution-[*]ShareAlike 4.0 International License (https://creativecommons.org/licenses/). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.    Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file)[ and at <some URL maintained by modeling group>]"
+  title: PLACEHOLDER <optional>
+  comment: some comments
+  contact: swahl@geomar.de
+
+output: #custom output structure, defines directory and filename structure
+  output_dir_structure: '{mip_era}/{activity_id}/{institution_id}/{source_id}/{experiment_id}/{member_id}/{table_id}/{variable_id}/{grid_label}/{version}'
+  output_filename_structure: '{variable_id}/{table_id}/{source_id}/{experiment_id}/{member_id}/{grid_label}'
+
+
+# Variables to CMORize
+variables:
+
+  cl:
+    short_name: cl
+    table_id: Amon
+    raw: cc
+    file: FOCI_GJK029_1m_*_regular_pl.nc
+
+  clivi: ##atmosphere_mass_content_of_cloud_ice
+    short_name: clivi
+    table_id: Amon
+    raw: tciw ##atmosphere_mass_content_of_ice_water
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  clwvi: ##atmosphere_mass_content_of_cloud_condensed_water
+    short_name: clwvi
+    table_id: Amon
+
+    raw:
+      - tclw ##atmosphere_mass_content_of_liquid_water
+      - tciw ##atmosphere_mass_content_of_ice_water
+
+    operator: sum
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+  clt:
+    short_name: clt
+    table_id: Amon
+    raw: tcc
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  evspsbl:
+    short_name: evspsbl
+    table_id: Amon
+    raw: e
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  hfss:
+    short_name: hfss
+    table_id: Amon
+    raw: sshf
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  hfls:
+    short_name: hfls
+    table_id: Amon
+    raw: slhf
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+
+  hus:
+    short_name: hus
+    table_id: Amon
+    raw: q
+    file: FOCI_GJK029_1m_*_regular_pl.nc
+
+  mrro:
+    short_name: mrro
+    table_id: Lmon
+    raw:
+      - sro
+      - ssro
+
+    operator: sum
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+  mrros:
+    short_name: mrros
+    table_id: Lmon
+    raw: sro
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  mrso:
+    short_name: mrso
+    table_id: Lmon
+    raw:
+      - swvl1
+      - swvl2
+      - swvl3
+      - swvl4
+
+    operator: sum
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+
+  pr:
+    short_name: pr
+    table_id: Amon
+    raw: tp
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  prc:
+    short_name: prc
+    table_id: Amon
+    raw: cp
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  prw:
+    short_name: prw
+    table_id: Amon
+    raw: tcwv
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  ps:
+    short_name: ps
+    table_id: Amon
+    raw: sp
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  psl:
+    short_name: psl
+    table_id: Amon
+    raw: msl
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  prsn:
+    short_name: prsn
+    table_id: Amon
+    raw: sf
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rlds:
+    short_name: rlds
+    table_id: Amon
+    raw: strd
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rls:
+    short_name: rls
+    table_id: Emon
+    raw: str
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rlus:
+    short_name: rlus
+    table_id: Amon
+
+    raw:
+      - str
+      - strd
+
+    operator: diff
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rsds:
+    short_name: rsds
+    table_id: Amon
+    raw: ssrd
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rsdt:
+    short_name: rsdt
+    table_id: Amon
+    raw: tisr
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rss:
+    short_name: rss
+    table_id: Emon
+    raw: ssr
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rsus:
+    short_name: rsus
+    table_id: Amon
+
+    raw:
+      - ssr
+      - ssrd
+
+    operator: diff
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rsut:
+    short_name: rsut
+    table_id: Amon
+    raw:
+      - tsr
+      - tisr
+    operator: diff
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+  rsutcs:
+    short_name: rsutcs
+    table_id: Amon
+    raw:
+      - tsrc
+      - tisr
+    operator: diff
+    files:
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+      - FOCI_GJK029_1m_*_regular_sfc.nc
+
+  sbl:
+    short_name: sbl
+    table_id: Amon
+    raw: es
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  ta:
+    short_name: ta
+    table_id: Amon
+    raw: t
+    file: FOCI_GJK029_1m_*_regular_pl.nc
+
+  tas:
+    short_name: tas
+    table_id: Amon
+    raw: 2t
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  tdps:
+    short_name: tdps
+    table_id: Emon
+    raw: 2d
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  ts:
+    short_name: ts
+    table_id: Amon
+    raw: sstk
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  ua:
+    short_name: ua
+    table_id: Amon
+    raw: u
+    file: FOCI_GJK029_*_regular_pl.nc
+
+  uas:
+    short_name: uas
+    table_id: Amon
+    raw: 10u
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  va:
+    short_name: va
+    table_id: Amon
+    raw: v
+    file: FOCI_GJK029_1m_*_regular_pl.nc
+
+
+  vas:
+    short_name: vas
+    table_id: Amon
+    raw: 10v
+    file: FOCI_GJK029_1m_*_regular_sfc.nc
+
+  wap: #### Needs conversion from m s-1 to Pa s-1
+    short_name: wap
+    table_id: Amon
+    raw: w
+    file: FOCI_GJK029_1m_*_regular_pl.nc
+
+  zg: #### Needs conversion from geopotential to geopotential_height
+    short_name: zg
+    table_id: Amon
+    raw: z
+    file: FOCI_GJK029_1m_*_regular_pl.nc

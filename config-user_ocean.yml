@@ -1,0 +1,53 @@
+###############################################################################
+# Example user configuration file for ESMValTool
+###############################################################################
+#
+# Note for users:
+# --------------
+# Site-specific entries for different HPC centers are given at the bottom of
+# this file. Comment out/replace as needed. This default version of the file
+# can be used in combination with the command line argument
+# ``search_esgf=when_missing``. If only certain values are allowed for an
+# option, these are listed after ``---``. The option in square brackets is the
+# default value, i.e., the one that is used if this option is omitted in the
+# file.
+#
+###############################################################################
+#
+# Note for developers:
+# -------------------
+# Two identical copies of this file (``ESMValTool/config-user-example.yml`` and
+# ``ESMValCore/esmvalcore/config-user.yml``) exist. If you change one of it,
+# make sure to apply the changes to the other.
+#
+###############################################################################
+---
+
+# Destination directory where all output will be written
+# Includes log files and performance stats.
+output_dir: /home/tsieker/Documents/Climdata/model_atmos/cmorized
+
+input_dir: /home/tsieker/Documents/Climdata/model_atmos/RAWOBS/Tier3/FOCI_OCEAN
+# Auxiliary data directory
+# Used by some recipes to look for additional datasets.
+auxiliary_data_dir: /home/tsieker/Documents/Climdata/model_atmos
+
+# Used by some recipes to look for additional datasets.
+cmor_config: /home/tsieker/Documents/foifs2cmor/cmor_config/FOCI_OCEAN.yml
+
+# Run at most this many tasks in parallel --- [null]/1/2/3/4/...
+# Set to ``null`` to use the number of available CPUs. If you run out of
+# memory, try setting max_parallel_tasks to ``1`` and check the amount of
+# memory you need for that by inspecting the file ``run/resource_usage.txt`` in
+# the output directory. Using the number there you can increase the number of
+# parallel tasks again to a reasonable number for the amount of memory
+# available in your system.
+max_parallel_tasks: null
+
+# Log level of the console --- debug/[info]/warning/error
+# For much more information printed to screen set log_level to ``debug``.
+log_level: info
+
+# Exit on warning --- true/[false]
+# # Only used in NCL diagnostic scripts.
+exit_on_warning: false
