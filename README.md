@@ -1,4 +1,4 @@
-INSTALLATION
+# INSTALLATION
 
 Need to install mamba first.
 
@@ -26,8 +26,8 @@ then run:
 
 python foci_atmos.py config-user_atmos.yml 
 
-# user configuration
+### user configuration
 used set up directories and configuration for running the script
 
-# cmor configuration
+### cmor configuration
 defines cmor specific parameters
