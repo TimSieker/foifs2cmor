@@ -10,7 +10,7 @@ conda activate foifs2cmor
 
 ### install dependencies
 
-mamba install esmvaltool
+mamba install esmvaltool=2.10.0
 
 python -m pip install 'scitools-iris @ git+https://github.com/TimSieker/iris.git@iris4cmor'
 
