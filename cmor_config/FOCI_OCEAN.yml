@@ -1,22 +1,68 @@
----
+experiment_id: FOCI_GJK029
+realm: ocean
+
+### OUTPUT STRUCTURE
+output: #custom output structure, defines directory and filename structures
+  output_dir_structure: '{mip_era}/{activity_id}/{institution_id}/{source_id}/{experiment_id}/{member_id}/{table_id}/{variable_id}/{grid_label}/{version}'
+  output_filename_structure: '{variable_id}/{table_id}/{source_id}/{experiment_id}/{member_id}/{grid_label}'
+
+### INPUT
+input:
+  input_filename_structure: '{experiment_id}/1m/*/{gridtype}' #Example: FOCI_GJK029_1m_*_grid_T.nc, this will look for all files in the format
+
+  vertices:
+    grid_T: # has to match the gridtype of the variables
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    grid_U:
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    grid_V:
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    icemod:
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    regular_pl: #if no vertices are required for representing the grid, set to null or ignore
+      null
 
 attributes:
+  ###Attributes that need to be supplied by the user
+  reference: null #optional
+  further_info_url: null #optional
+  title: null #optional
+  comment: null #optional
+  contact: swahl@geomar.de
 
-  product: model-output
-  project_id: CMIP6 #actually just needed for esmvaltool
+  version: "v20240320" #should include date which is representative for the model
+  realization_index: 1
+  initialization_index: 1
+  physics_index: 1
+  forcing_index: 1
+  variant_info: realization 1
+
+  grid: 'native ocean: tri-polar grid with 722x511 grid cells. Grid is regular lonxlat on Southern Hemisphere'
+  grid_label: gn
+  nominal_resolution: 50 km
+  frequency: mon
+
+  #set the ‘base time’ to the time at the beginning of the simulation, will be omitted eventually
+  base_time: "1850-01-01"
+
+  ###Attributes that in most cases don't need to be changed
+
   activity_id: CMIP
-  experiment: some text describing the experiment
-  experiment_id: future
-  sub_experiment: "none"
-  sub_experiment_id: "none"
   institution: Geomar, Helmholtz Centre for Ocean Research, Wischhofstr. 1-3 24148 Kiel, Germany
   institution_id: GEOMAR
-  grid: native atmosphere reduced octahedral O96 Gaussian grid regridded to regular lonxlat grid using bi-linear interpolation
-  grid_label: gn
-  nominal_resolution: 100 km
-  frequency: mon
   mip_era: CMIP6
-  realm: ocean
   source:
       "FOCI-OpenIFS 3.0 (2023):\n
       aerosol: none,\n
@@ -27,39 +73,13 @@ attributes:
       ocean: NEMO 3.6 (ORCA05 tripolar grid 0.5 deg; 722 x 511 longitude/latitude; 46 levels; top grid cell 0-5m),\n
       ocnBgchem: none,\n
       seaIce: LIM2"
+
+  product: model-output
   source_id: FOCI-OpenIFS
   source_type: "AOGCM"
-  version: "v20240320" #should include date which is representative for the model
-  realization_index: 1
-  initialization_index: 1
-  physics_index: 1
-  forcing_index: 1
-  variant_info: realization 1
 
-  base_time: "1850-01-01" #set the ‘base time’ to the time at the beginning of the simulation, will be omitted eventually
+  license: "CMIP6 model data produced by GEOMAR is licensed under a Creative Commons Attribution-[*]ShareAlike 4.0 International License (https://creativecommons.org/licenses/). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.    Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file)[ and at <some URL maintained by modeling group>]"
 
-  branch_method: no parent #if no parent, will be omitted
-  branch_time_in_child: 0. #if no parent, will be omitted
-  branch_time_in_parent: 0. #if no parent, will be omitted
-  parent_activity_id: no parent #if no parent, will be omitted
-  parent_experiment_id: no parent #if no parent, will be omitted
-  parent_mip_era: no parent #if no parent, will be omitted
-  parent_source_id: no parent #if no parent, will be omitted
-  parent_time_units: no parent #if no parent, will be omitted
-  parent_variant_label: no parent #if no parent, will be omitted
-
-  reference: some publication
-  further_info_url: some url leading to documentation (same as reference?)
-  license: "CMIP6 model data produced by <Your Centre Name> is licensed under a Creative Commons Attribution-[*]ShareAlike 4.0 International License (https://creativecommons.org/licenses/). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.    Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file)[ and at <some URL maintained by modeling group>]"
-  title: PLACEHOLDER <optional>
-  comment: some comments
-  contact: swahl@geomar.de
-
-output: #custom output structure, defines directory and filename structure
-  output_dir_structure: '{mip_era}/{activity_id}/{institution_id}/{source_id}/{experiment_id}/{member_id}/{table_id}/{variable_id}/{grid_label}/{version}'
-  output_filename_structure: '{variable_id}/{table_id}/{source_id}/{experiment_id}/{member_id}/{grid_label}'
-
-  #
 # Variables to CMORize
 variables:
 
@@ -77,11 +97,8 @@ variables:
     variable_id: sos
     table_id: Omon
     raw: sosaline
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
+
 
   #to:
   #  variable_id: to
@@ -98,173 +115,107 @@ variables:
     variable_id: tos
     table_id: Omon
     raw: sosstsst
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
+
 
   zos:
     variable_id: zos
     table_id: Omon
     raw: sossheig
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
+
 
   wfo:
     variable_id: wfo
     table_id: Omon
     raw: sowaflup
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   friver:
     variable_id: friver
     table_id: Omon
     raw: runoffs
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   ficeberg2d:
     variable_id: ficeberg2d
     table_id: Omon
     raw: calving
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   fsitherm:
     variable_id: fsitherm
     table_id: Omon
     raw: fmmflx
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
 
   rsntds:
     variable_id: rsntds
     table_id: Omon
     raw: soshfldo
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   hfds:
     variable_id: hfds
     table_id: Omon
     raw: sohefldo
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
 
   hfrainds:
     variable_id: hfrainds
     table_id: Omon
     raw: hflx_rain
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   hfevapds:
     variable_id: hfevapds
     table_id: Omon
     raw: hflx_evap
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   hfrunoffds2d:
     variable_id: hfrunoffds2d
     table_id: Omon
     raw: hflx_rnf
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   hfsnthermds2d:
     variable_id: hfsnthermds2d
     table_id: Omon
     raw: hflx_snow
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   hfibthermds2d:
     variable_id: hfibthermds2d
     table_id: Omon
     raw: hflx_cal
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   mlotst:
     variable_id: mlotst
     table_id: Omon
     raw: somxl010
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   mlotstmax:
     variable_id: mlotstmax
     table_id: Omon
     raw: sobowlin
-    file: FOCI_GJK029_1m_*_grid_T.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_T
 
   tauuo:
     variable_id: tauuo
     table_id: Omon
     raw: sozotaux
-    file: FOCI_GJK029_1m_*_grid_U.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_U
 
   tauvo:
     variable_id: tauvo
     table_id: Omon
     raw: sometauy
-    file: FOCI_GJK029_1m_*_grid_V.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: grid_V
 
 
   ##############################################################################
@@ -275,49 +226,29 @@ variables:
     variable_id: siconc
     table_id: SImon
     raw: ileadfra
-    file: FOCI_GJK029_1m_*_icemod.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: icemod
 
 
   siitdsnthick:
     variable_id: siitdsnthick
     table_id: SImon
     raw: isnowthi
-    file: FOCI_GJK029_1m_*_icemod.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: icemod
 
   siitdthick:
     variable_id: siitdthick
     table_id: SImon
     raw: iicethic
-    file: FOCI_GJK029_1m_*_icemod.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: icemod
 
   sitempsnic:
     variable_id: sitempsnic
     table_id: SImon
     raw: iicetemp
-    file: FOCI_GJK029_1m_*_icemod.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: icemod
 
   sitempsnic:
     variable_id: sitempsnic
     table_id: SImon
     raw: iicetemp
-    file: FOCI_GJK029_1m_*_icemod.nc
-    vertices:
-      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
-      lon: opat.clo
-      lat: opat.cla
+    gridtype: icemod

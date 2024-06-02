@@ -1,21 +1,70 @@
 ---
+experiment_id: FOCI_GJK029
+realm: atmos
+
+### OUTPUT STRUCTURE
+output: #custom output structure, defines directory and filename structures
+  output_dir_structure: '{mip_era}/{activity_id}/{institution_id}/{source_id}/{experiment_id}/{member_id}/{table_id}/{variable_id}/{grid_label}/{version}'
+  output_filename_structure: '{variable_id}/{table_id}/{source_id}/{experiment_id}/{member_id}/{grid_label}'
+
+### INPUT
+input:
+  input_filename_structure: '{experiment_id}/1m/*/{gridtype}' #Example: FOCI_GJK029_1m_*_grid_T.nc, this will look for all files in the format
+
+  vertices:
+    grid_T: # has to match the gridtype of the variables
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    grid_U:
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    grid_V:
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    icemod:
+      file: grids_T63_ORCA05_frac.nc ## name of the grid file, where cell vertices are stored
+      lon: opat.clo
+      lat: opat.cla
+
+    regular_pl: #if no vertices are required for representing the grid, set to null or ignore
+      null
+
+
+
 # Global attributes of NetCDF file
 attributes:
-  product: model-output
-  project_id: CMIP6 #actually just needed for esmvaltool
-  activity_id: CMIP
-  experiment: some text describing the experiment
-  experiment_id: future
-  sub_experiment: "none"
-  sub_experiment_id: "none"
-  institution: Geomar, Helmholtz Centre for Ocean Research, Wischhofstr. 1-3 24148 Kiel, Germany
-  institution_id: GEOMAR
+  ###Attributes that need to be supplied by the user
+  reference: some publication
+  further_info_url: some url leading to documentation (same as reference?)
+  title: PLACEHOLDER <optional>
+  comment: some comments
+  contact: swahl@geomar.de
+
+  version: "v20240320"
+  realization_index: 1
+  initialization_index: 1
+  physics_index: 1
+  forcing_index: 1
+  variant_info: realization 1
+
   grid: native atmosphere reduced octahedral O96 Gaussian grid regridded to regular lonxlat grid using bi-linear interpolation
   grid_label: gn
   nominal_resolution: 250 km
   frequency: mon
+
+  base_time: "1850-01-01" #set the ‘base time’ to the time at the beginning of the simulation, will be omitted eventually
+
+  ###Attributes that in most cases don't need to be changed
+  activity_id: CMIP
+  institution: Geomar, Helmholtz Centre for Ocean Research, Wischhofstr. 1-3 24148 Kiel, Germany
+  institution_id: GEOMAR
   mip_era: CMIP6
-  realm: atmos
   source:
       "FOCI-OpenIFS 3.0 (2023):\n
       aerosol: none,\n
@@ -26,37 +75,12 @@ attributes:
       ocean: NEMO 3.6 (ORCA05 tripolar grid 0.5 deg; 722 x 511 longitude/latitude; 46 levels; top grid cell 0-5m),\n
       ocnBgchem: none,\n
       seaIce: LIM2"
+
+  product: model-output
   source_id: FOCI-OpenIFS
   source_type: "AOGCM"
-  version: "v20240320"
-  realization_index: 1
-  initialization_index: 1
-  physics_index: 1
-  forcing_index: 1
-  variant_info: realization 1
 
-  base_time: "1850-01-01" #set the ‘base time’ to the time at the beginning of the simulation, will be omitted eventually
-
-  branch_method: standard #if no parent, will be omitted
-  branch_time_in_child: 0. #if no parent, will be omitted
-  branch_time_in_parent: 0. #if no parent, will be omitted
-  parent_activity_id: CMIP #if no parent, will be omitted
-  parent_experiment_id: piControl #if no parent, will be omitted
-  parent_mip_era: CMIP6 #if no parent, will be omitted
-  parent_source_id: no parent #if no parent, will be omitted
-  parent_time_units: no parent #if no parent, will be omitted
-  parent_variant_label: no parent #if no parent, will be omitted
-
-  reference: some publication
-  further_info_url: some url leading to documentation (same as reference?)
-  license: "CMIP6 model data produced by <Your Centre Name> is licensed under a Creative Commons Attribution-[*]ShareAlike 4.0 International License (https://creativecommons.org/licenses/). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.    Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file)[ and at <some URL maintained by modeling group>]"
-  title: PLACEHOLDER <optional>
-  comment: some comments
-  contact: swahl@geomar.de
-
-output: #custom output structure, defines directory and filename structure
-  output_dir_structure: '{mip_era}/{activity_id}/{institution_id}/{source_id}/{experiment_id}/{member_id}/{table_id}/{variable_id}/{grid_label}/{version}'
-  output_filename_structure: '{variable_id}/{table_id}/{source_id}/{experiment_id}/{member_id}/{grid_label}'
+  license: "CMIP6 model data produced by GEOMAR is licensed under a Creative Commons Attribution-[*]ShareAlike 4.0 International License (https://creativecommons.org/licenses/). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.    Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file)[ and at <some URL maintained by modeling group>]"
 
 
 # Variables to CMORize
@@ -66,13 +90,13 @@ variables:
     short_name: cl
     table_id: Amon
     raw: cc
-    file: FOCI_GJK029_1m_*_regular_pl.nc
+    gridtype: regular_pl
 
   clivi: ##atmosphere_mass_content_of_cloud_ice
     short_name: clivi
     table_id: Amon
     raw: tciw ##atmosphere_mass_content_of_ice_water
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   clwvi: ##atmosphere_mass_content_of_cloud_condensed_water
     short_name: clwvi
@@ -83,40 +107,39 @@ variables:
       - tciw ##atmosphere_mass_content_of_ice_water
 
     operator: sum
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+
 
   clt:
     short_name: clt
     table_id: Amon
     raw: tcc
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   evspsbl:
     short_name: evspsbl
     table_id: Amon
     raw: e
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   hfss:
     short_name: hfss
     table_id: Amon
     raw: sshf
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   hfls:
     short_name: hfls
     table_id: Amon
     raw: slhf
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
-
+    gridtype: regular_sfc
 
   hus:
     short_name: hus
     table_id: Amon
     raw: q
-    file: FOCI_GJK029_1m_*_regular_pl.nc
+    gridtype: regular_pl
+
 
   mrro:
     short_name: mrro
@@ -126,15 +149,16 @@ variables:
       - ssro
 
     operator: sum
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #files:
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   mrros:
     short_name: mrros
     table_id: Lmon
     raw: sro
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   mrso:
     short_name: mrso
@@ -146,60 +170,61 @@ variables:
       - swvl4
 
     operator: sum
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #files:
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
 
   pr:
     short_name: pr
     table_id: Amon
     raw: tp
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   prc:
     short_name: prc
     table_id: Amon
     raw: cp
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   prw:
     short_name: prw
     table_id: Amon
     raw: tcwv
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   ps:
     short_name: ps
     table_id: Amon
     raw: sp
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   psl:
     short_name: psl
     table_id: Amon
     raw: msl
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   prsn:
     short_name: prsn
     table_id: Amon
     raw: sf
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   rlds:
     short_name: rlds
     table_id: Amon
     raw: strd
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   rls:
     short_name: rls
     table_id: Emon
     raw: str
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   rlus:
     short_name: rlus
@@ -210,27 +235,31 @@ variables:
       - strd
 
     operator: diff
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #files:
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsds:
     short_name: rsds
     table_id: Amon
     raw: ssrd
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #file: FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsdt:
     short_name: rsdt
     table_id: Amon
     raw: tisr
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #file: FOCI_GJK029_1m_*_regular_sfc.nc
 
   rss:
     short_name: rss
     table_id: Emon
     raw: ssr
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #file: FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsus:
     short_name: rsus
@@ -241,9 +270,10 @@ variables:
       - ssrd
 
     operator: diff
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #files:
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsut:
     short_name: rsut
@@ -252,9 +282,10 @@ variables:
       - tsr
       - tisr
     operator: diff
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #files:
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsutcs:
     short_name: rsutcs
@@ -263,73 +294,73 @@ variables:
       - tsrc
       - tisr
     operator: diff
-    files:
-      - FOCI_GJK029_1m_*_regular_sfc.nc
-      - FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
+    #files:
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
+    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   sbl:
     short_name: sbl
     table_id: Amon
     raw: es
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   ta:
     short_name: ta
     table_id: Amon
     raw: t
-    file: FOCI_GJK029_1m_*_regular_pl.nc
+    gridtype: regular_pl
 
   tas:
     short_name: tas
     table_id: Amon
     raw: 2t
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   tdps:
     short_name: tdps
     table_id: Emon
     raw: 2d
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   ts:
     short_name: ts
     table_id: Amon
     raw: sstk
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   ua:
     short_name: ua
     table_id: Amon
     raw: u
-    file: FOCI_GJK029_*_regular_pl.nc
+    gridtype: regular_pl
 
   uas:
     short_name: uas
     table_id: Amon
     raw: 10u
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   va:
     short_name: va
     table_id: Amon
     raw: v
-    file: FOCI_GJK029_1m_*_regular_pl.nc
-
+    gridtype: regular_pl
 
   vas:
     short_name: vas
     table_id: Amon
     raw: 10v
-    file: FOCI_GJK029_1m_*_regular_sfc.nc
+    gridtype: regular_sfc
 
   wap: #### Needs conversion from m s-1 to Pa s-1
     short_name: wap
     table_id: Amon
     raw: w
-    file: FOCI_GJK029_1m_*_regular_pl.nc
+    gridtype: regular_pl
 
   zg: #### Needs conversion from geopotential to geopotential_height
     short_name: zg
     table_id: Amon
     raw: z
-    file: FOCI_GJK029_1m_*_regular_pl.nc
+    gridtype: regular_pl

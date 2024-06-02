@@ -1,0 +1,30 @@
+experiment_id:
+  FOCI_GJK029:
+    experiment: some text describing the experiment
+    sub_experiment: "none"
+    sub_experiment_id: "none"
+
+    branch_method: no parent #if no parent, will be omitted
+    branch_time_in_child: 0. #if no parent, will be omitted
+    branch_time_in_parent: 0. #if no parent, will be omitted
+    parent_activity_id: no parent #if no parent, will be omitted
+    parent_experiment_id: no parent #if no parent, will be omitted
+    parent_mip_era: no parent #if no parent, will be omitted
+    parent_source_id: no parent #if no parent, will be omitted
+    parent_time_units: no parent #if no parent, will be omitted
+    parent_variant_label: no parent #if no parent, will be omitted
+
+  FOCI_GJK030:
+    experiment: some text describing the experiment
+    sub_experiment: "none"
+    sub_experiment_id: "none"
+
+    branch_method: no parent #if no parent, will be omitted
+    branch_time_in_child: 0. #if no parent, will be omitted
+    branch_time_in_parent: 0. #if no parent, will be omitted
+    parent_activity_id: no parent #if no parent, will be omitted
+    parent_experiment_id: no parent #if no parent, will be omitted
+    parent_mip_era: no parent #if no parent, will be omitted
+    parent_source_id: no parent #if no parent, will be omitted
+    parent_time_units: no parent #if no parent, will be omitted
+    parent_variant_label: no parent #if no parent, will be omitted
