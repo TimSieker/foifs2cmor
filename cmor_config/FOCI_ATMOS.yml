@@ -150,9 +150,6 @@ variables:
 
     operator: sum
     gridtype: regular_sfc
-    #files:
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   mrros:
     short_name: mrros
@@ -171,11 +168,6 @@ variables:
 
     operator: sum
     gridtype: regular_sfc
-    #files:
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
 
   pr:
@@ -236,30 +228,24 @@ variables:
 
     operator: diff
     gridtype: regular_sfc
-    #files:
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsds:
     short_name: rsds
     table_id: Amon
     raw: ssrd
     gridtype: regular_sfc
-    #file: FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsdt:
     short_name: rsdt
     table_id: Amon
     raw: tisr
     gridtype: regular_sfc
-    #file: FOCI_GJK029_1m_*_regular_sfc.nc
 
   rss:
     short_name: rss
     table_id: Emon
     raw: ssr
     gridtype: regular_sfc
-    #file: FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsus:
     short_name: rsus
@@ -271,9 +257,6 @@ variables:
 
     operator: diff
     gridtype: regular_sfc
-    #files:
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsut:
     short_name: rsut
@@ -283,9 +266,6 @@ variables:
       - tisr
     operator: diff
     gridtype: regular_sfc
-    #files:
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   rsutcs:
     short_name: rsutcs
@@ -295,9 +275,6 @@ variables:
       - tisr
     operator: diff
     gridtype: regular_sfc
-    #files:
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
-    #  - FOCI_GJK029_1m_*_regular_sfc.nc
 
   sbl:
     short_name: sbl
@@ -359,7 +336,7 @@ variables:
     raw: w
     gridtype: regular_pl
 
-  zg: #### Needs conversion from geopotential to geopotential_height
+  zg: 
     short_name: zg
     table_id: Amon
     raw: z
